@@ -5,7 +5,7 @@
  *
  * @package Rotor WP Plugin
  */
-abstract class Rotor_WPPlugin_Base {
+class Rotor_WPPlugin_Base {
 	private $methods;
 
 	/**
@@ -16,7 +16,7 @@ abstract class Rotor_WPPlugin_Base {
 	 * @param boolean|array $prefixes True for default (`action_`/`filter_`), array with keys "action" & "filter" or false
 	 * @param string|object $parent Object to register from
 	 */
-	protected static function _register_hooks($prefixes, $parent) {
+	public static function _register_hooks($prefixes, $parent) {
 		$enable_prefixes = true;
 		if ($prefixes === false) {
 			$enable_prefixes = false;
