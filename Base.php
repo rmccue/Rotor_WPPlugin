@@ -20,6 +20,11 @@ abstract class Rotor_WPPlugin_Base {
 		$self = new ReflectionClass($parent);
 		foreach ($self->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
 			$params = $method->getNumberOfParameters();
+			$doc = $method->getDocComment();
+			if (!empty($doc) && preg_match('#^\s+\*\s*@wp-nohook#im', $doc) !== 0) {
+				continue;
+			}
+
 			$hooks = array('filter' => array(), 'action' => array());
 
 			if ($enable_prefixes === true && strpos($method->name, 'filter_') === 0) {
@@ -31,7 +36,6 @@ abstract class Rotor_WPPlugin_Base {
 				$hooks['action'][$hook] = 10;
 			}
 			else {
-				$doc = $method->getDocComment();
 				if (empty($doc) || (strpos($doc, '@wp-filter') === false && strpos($doc, '@wp-action') === false)) {
 					continue;
 				}
