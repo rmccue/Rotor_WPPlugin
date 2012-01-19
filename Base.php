@@ -6,8 +6,6 @@
  * @package Rotor WP Plugin
  */
 class Rotor_WPPlugin_Base {
-	private $methods;
-
 	/**
 	 * Register hooks
 	 *
