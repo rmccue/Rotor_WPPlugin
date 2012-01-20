@@ -35,12 +35,20 @@ class Rotor_WPPlugin_Static extends Rotor_WPPlugin_Base {
 	 * a full callback, only the method needs to be passed in.
 	 *
 	 * @param string $hook Filter name
-	 * @param string $method Method name on current class
+	 * @param string $method Method name on current class, or priority (as an int)
 	 * @param int $priority Specify the order in which the functions associated with a particular action are executed (default: 10)
 	 * @param int $accepted_args Number of parameters which callback accepts (default: corresponds to method prototype)
 	 * @param string $class Internal use only
 	 */
-	protected static function add_filter($hook, $method, $priority = 10, $params = null, $class = null) {
+	protected static function add_filter($hook, $method = null, $priority = 10, $params = null, $class = null) {
+		if ($method === null) {
+			$method = $hook;
+		}
+		elseif (is_int($method)) {
+			$priority = $method;
+			$method = $hook;
+		}
+
 		if ($class === null) {
 			if (function_exists('get_called_class') && false) {
 				$class = get_called_class();
@@ -78,12 +86,20 @@ class Rotor_WPPlugin_Static extends Rotor_WPPlugin_Base {
 	 *
 	 * @internal This is duplication, but ensures consistency with WordPress API
 	 * @param string $hook Action name
-	 * @param string $method Method name on current class
+	 * @param string $method Method name on current class, or priority (as an int)
 	 * @param int $priority Specify the order in which the functions associated with a particular action are executed (default: 10)
 	 * @param int $accepted_args Number of parameters which callback accepts (default: corresponds to method prototype)
 	 * @param string $class Internal use only
 	 */
-	protected static function add_action($hook, $method, $priority = 10, $params = null, $class = null) {
+	protected static function add_action($hook, $method = null, $priority = 10, $params = null, $class = null) {
+		if ($method === null) {
+			$method = $hook;
+		}
+		elseif (is_int($method)) {
+			$priority = $method;
+			$method = $hook;
+		}
+
 		if ($class === null) {
 			if (function_exists('get_called_class') && false) {
 				$class = get_called_class();

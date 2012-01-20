@@ -28,11 +28,19 @@ class Rotor_WPPlugin extends Rotor_WPPlugin_Base {
 	 * a full callback, only the method needs to be passed in.
 	 *
 	 * @param string $hook Filter name
-	 * @param string $method Method name on current class
+	 * @param string $method Method name on current class, or priority (as an int)
 	 * @param int $priority Specify the order in which the functions associated with a particular action are executed (default: 10)
 	 * @param int $accepted_args Number of parameters which callback accepts (default: corresponds to method prototype)
 	 */
-	protected function add_filter($hook, $method, $priority = 10, $params = null) {
+	protected function add_filter($hook, $method = null, $priority = 10, $params = null) {
+		if ($method === null) {
+			$method = $hook;
+		}
+		elseif (is_int($method)) {
+			$priority = $method;
+			$method = $hook;
+		}
+
 		if (!method_exists($this, $method)) {
 			throw new InvalidArgumentException('Method does not exist');
 		}
@@ -53,11 +61,19 @@ class Rotor_WPPlugin extends Rotor_WPPlugin_Base {
 	 *
 	 * @internal This is duplication, but ensures consistency with WordPress API
 	 * @param string $hook Action name
-	 * @param string $method Method name on current class
+	 * @param string|int $method Method name on current class, or priority (as an int)
 	 * @param int $priority Specify the order in which the functions associated with a particular action are executed (default: 10)
 	 * @param int $accepted_args Number of parameters which callback accepts (default: corresponds to method prototype)
 	 */
-	protected function add_action($hook, $method, $priority = 10, $params = null) {
+	protected function add_action($hook, $method = null, $priority = 10, $params = null) {
+		if ($method === null) {
+			$method = $hook;
+		}
+		elseif (is_int($method)) {
+			$priority = $method;
+			$method = $hook;
+		}
+
 		if (!method_exists($this, $method)) {
 			throw new InvalidArgumentException('Method does not exist');
 		}
